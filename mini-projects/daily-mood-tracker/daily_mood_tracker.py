@@ -10,7 +10,8 @@ def print_menu():
     print("\n=== Daily Mood Tracker ===")
     print("1. Log today's mood")
     print("2. View mood stats")
-    print("3. Exit")
+    print("3. View full mood history")
+    print("4. Exit")
 
 
 def log_mood():
@@ -124,20 +125,45 @@ def show_stats():
             print(f"{date_str} - {mood}")
 
 
+def view_history():
+    # Display the full mood history from the log file."""
+    entries = load_entries()
+
+    if not entries:
+        print("No moods logged yet. Try logging one first!")
+        return
+
+    print("\n=== Full Mood History ===")
+    print(f"Total entries: {len(entries)}")
+    print("-" * 40)
+
+    for entry in entries:
+        date_str = entry["date"]
+        mood = entry["mood"]
+        rating = entry["rating"]
+
+        if rating is not None:
+            print(f"{date_str} - {mood} (rating: {rating}/5)")
+        else:
+            print(f"{date_str} - {mood}")
+
+
 def main():
     while True:
         print_menu()
-        choice = input("Choose an option (1-3): ").strip()
+        choice = input("Choose an option (1-4): ").strip()
 
         if choice == "1":
             log_mood()
         elif choice == "2":
             show_stats()
         elif choice == "3":
+            view_history()
+        elif choice == "4":
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
+            print("Invalid choice. Please enter 1, 2, 3, or 4.")
 
 
 if __name__ == "__main__":
